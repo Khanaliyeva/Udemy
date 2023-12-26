@@ -10,7 +10,7 @@ using Udemy.DAL.Context;
 
 namespace Udemy.DAL.Repositories.Interfaces
 {
-    public interface IRepository<TEntity> where TEntity : BaseEntity , new()
+    public interface IRepository<TEntity> where TEntity : BaseAuditableEntity
     {
        Task<IQueryable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? expression = null,
             Expression<Func<TEntity, object>>? expressionOrder = null,
@@ -19,7 +19,9 @@ namespace Udemy.DAL.Repositories.Interfaces
             );
 
         Task<int> SaveChangesAsync();
-
-        Task CreateAsync(TEntity entity);
+        Task<TEntity> GetById(int Id);
+        Task<TEntity> CreateAsync(TEntity entity);
+        Task<TEntity> UpdateAsync(TEntity entity);
+        Task<TEntity> DeleteAsync(TEntity entity);
     }
 }

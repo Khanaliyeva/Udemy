@@ -15,7 +15,7 @@ namespace Udemy.DAL.Context
             modelBuilder.Entity<Category>()
                 .HasOne(s => s.Parent)
                 .WithMany(m => m.Children)
-                .HasForeignKey(e => e.ParentId);
+                .HasForeignKey(e => e.ParentCategoryId);
 
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

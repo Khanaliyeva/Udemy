@@ -1,5 +1,6 @@
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using Udemy.API;
 using Udemy.Business.DTOs.CategoryDtos;
 using Udemy.Business.Services.Implimentations;
 using Udemy.Business.Services.Interfaces;
@@ -13,9 +14,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryservice, CategoryService>();
+builder.Services.AddAutoMapper(typeof(MapperProfile).Assembly);
+
 builder.Services.AddControllers().AddFluentValidation(opt =>
 {
     opt.RegisterValidatorsFromAssembly(typeof(CategoryCreateDtoValidation).Assembly);
+    opt.RegisterValidatorsFromAssembly(typeof(CategoryGetDtoValidation).Assembly);
+    opt.RegisterValidatorsFromAssembly(typeof(CategoryUpdateDtos).Assembly);
+
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

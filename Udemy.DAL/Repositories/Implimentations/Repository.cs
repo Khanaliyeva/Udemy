@@ -21,9 +21,10 @@ namespace Udemy.DAL.Repositories.Implimentations
             _context = context;
         }
 
-        public async Task CreateAsync(TEntity entity)
+        public async Task<TEntity> CreateAsync(TEntity entity)
         {
-            Table.AddAsync(entity);
+            await Table.AddAsync(entity);
+            return entity;
         }
         public DbSet<TEntity> Table => _context.Set<TEntity>();
 
@@ -59,6 +60,29 @@ namespace Udemy.DAL.Repositories.Implimentations
             var result = await _context.SaveChangesAsync();
 
             return result;
+        }
+
+        public async Task<TEntity> GetById(int Id)
+        {
+            return await Table.AsNoTracking().FirstOrDefaultAsync(x => x.Id == Id && !x.IsDeleted);
+        }
+
+
+        public async Task<TEntity> UpdateAsync(TEntity entity)
+        {
+            Table.Update(entity);
+
+            return entity;
+        }
+
+
+        public async Task<TEntity> DeleteAsync(TEntity entity)
+        {
+            entity.IsDeleted = true;
+
+            Table.Update(entity);
+
+            return entity;
         }
     }
 }
